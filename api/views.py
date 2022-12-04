@@ -5,11 +5,14 @@ from rest_framework.response import Response
 
 from .serializers import OnSaleItemsSerializer
 from .models import OnSaleItems
+#from .filters import OnSaleItemsFilter
+from django_filters.utils import translate_validation
 
 @api_view(['GET'])
 def apiOverview(request):
     api_urls = {
         'ItemsOnSell': '/onsale-items/',
+        'Search Item': 'searchItem/<str:itemname>/',
         'Detail View': '/onsale-items-detail/<str:pk>',
         'Create': 'onsale-create',
         'Update': '/task-update/<str:pk>',
@@ -22,8 +25,18 @@ def apiOverview(request):
 
 @api_view(['GET'])
 def onSellItemsList(request):
-    onSellItems = OnSaleItems.objects.all()
-    serializer = OnSaleItemsSerializer(onSellItems, many=True)
+    onSellItems_query = OnSaleItems.objects.all()
+    #filterset = OnSaleItemsFilter(request.GET, queryset=onSellItems_query)
+    # if filterset.is_valid():
+    #     onSellItems_query = filterset.qs
+
+    serializer = OnSaleItemsSerializer(onSellItems_query, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def filterOnSellItems(request, itemname):
+    onSellItems_filterquery = OnSaleItems.objects.filter(name__icontains=itemname)
+    serializer = OnSaleItemsSerializer(onSellItems_filterquery, many=True)
     return Response(serializer.data)
 
 @api_view(['POST'])
