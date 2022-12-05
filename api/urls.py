@@ -5,5 +5,6 @@ urlpatterns = [
     path('', views.apiOverview, name="api-overview"),
     path('onsale-items/', views.onSellItemsList, name="onsale-items"),
     path("searchItem/<str:itemname>", views.filterOnSellItems, name="searchItem"),
+    path("category/<str:itemname>", views.onSellItemsCategory, name="searchItem"),
     path('onsale-create/', views.onSellItemsCreate, name="onsale-items-detail")
 ]

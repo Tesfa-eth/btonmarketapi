@@ -2,11 +2,13 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.db.models import Q
 
 from .serializers import OnSaleItemsSerializer
 from .models import OnSaleItems
 #from .filters import OnSaleItemsFilter
 from django_filters.utils import translate_validation
+
 
 @api_view(['GET'])
 def apiOverview(request):
@@ -35,7 +37,13 @@ def onSellItemsList(request):
 
 @api_view(['GET'])
 def filterOnSellItems(request, itemname):
-    onSellItems_filterquery = OnSaleItems.objects.filter(name__icontains=itemname)
+    onSellItems_filterquery = OnSaleItems.objects.filter(Q(name__icontains=itemname) | Q(seller__icontains=itemname))
+    serializer = OnSaleItemsSerializer(onSellItems_filterquery, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def onSellItemsCategory(request, itemname):
+    onSellItems_filterquery = OnSaleItems.objects.filter(categories=itemname)
     serializer = OnSaleItemsSerializer(onSellItems_filterquery, many=True)
     return Response(serializer.data)
 
