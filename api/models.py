@@ -8,6 +8,8 @@ class OnSaleItems(models.Model):
     negotiable = models.BooleanField(default=False, blank=True, null=True)
     sold = models.BooleanField(default=False, blank=True, null=True)
     img = models.CharField(max_length=300)
+    categories = models.CharField(max_length=100, default="uncategorized")
+    # categories = ["uncategorized", "services", "vehicle", "tickets"...]
 
     def __str__(self) -> str:
         return self.name
