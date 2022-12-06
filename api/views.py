@@ -15,14 +15,14 @@ def apiOverview(request):
     api_urls = {
         'ItemsOnSell': '/onsale-items/',
         'Search Item': 'searchItem/<str:itemname>/',
-        'Detail View': '/onsale-items-detail/<str:pk>',
+        'Detail View': '/onsale-item-detail/<str:pk>',
+        'Category': '/category/<str:itemname>',
         'Create': 'onsale-create',
         'Update': '/task-update/<str:pk>',
         'Delete' : '/task-delete/<str:pk>'
     }
 
     #return JsonResponse("API BASE POINT", safe=False)
-
     return Response(api_urls)
 
 @api_view(['GET'])
@@ -45,6 +45,12 @@ def filterOnSellItems(request, itemname):
 def onSellItemsCategory(request, itemname):
     onSellItems_filterquery = OnSaleItems.objects.filter(categories=itemname)
     serializer = OnSaleItemsSerializer(onSellItems_filterquery, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def itemDetail(request, pk):
+    onSellItems_filterquery = OnSaleItems.objects.get(id=pk)
+    serializer = OnSaleItemsSerializer(onSellItems_filterquery, many=False)
     return Response(serializer.data)
 
 @api_view(['POST'])
