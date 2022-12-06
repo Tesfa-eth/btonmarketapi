@@ -130,7 +130,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 # for image upload
-MEDIA_ROOT = os.path.join(BASE_DIR, "myproject", "media")
+MEDIA_ROOT = os.path.join(BASE_DIR, "api", "media")
 MEDIA_URL = "/media/"
 
 # Default primary key field type
