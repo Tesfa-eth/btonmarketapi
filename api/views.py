@@ -32,7 +32,7 @@ def onSellItemsList(request):
     # if filterset.is_valid():
     #     onSellItems_query = filterset.qs
 
-    serializer = OnSaleItemsSerializer(onSellItems_query, many=True)
+    serializer = OnSaleItemsSerializer(onSellItems_query,context={'request': request}, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
