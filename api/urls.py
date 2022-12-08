@@ -11,6 +11,6 @@ urlpatterns = [
     path("onsale-item-detail/<str:pk>", views.itemDetail, name="itemDetail"),
     path('onsale-create/', views.onSellItemsCreate, name="onsale-items-detail")
 ]
-
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
